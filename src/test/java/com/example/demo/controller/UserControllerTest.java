@@ -112,4 +112,14 @@ class UserControllerTest {
 			.andExpect(jsonPath("$.address").value("Pangyo"))
 			.andExpect(jsonPath("$.status").value("ACTIVE"));
 	}
+
+	@Test
+	@DisplayName("사용자는 인증 코드가 일치하지 않을 경우 권한 없음 에러를 내려준다.")
+	void uct6() throws Exception {
+		//then
+		mockMvc.perform(
+				get("/api/users/2/verify")
+					.queryParam("certificationCode", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab"))
+			.andExpect(status().isForbidden());
+	}
 }
