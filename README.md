@@ -23,3 +23,8 @@ h2를 이용하여 `auto create table`을 하고 있기 때문에 바로 실행�
 
 - [h2-console](http://localhost:8080/h2-console)
 - [Openapi-doc](http://localhost:8080/swagger-ui.html)
+
+## 정리 내용 추가
+[기존 방식의 문제점과 해결.md](document%2F%EA%B8%B0%EC%A1%B4%20%EB%B0%A9%EC%8B%9D%EC%9D%98%20%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC%20%ED%95%B4%EA%B2%B0.md)
+  
+[테스트와 의존성, Testability.md](document%2F%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%99%80%20%EC%9D%98%EC%A1%B4%EC%84%B1%2C%20Testability.md)
