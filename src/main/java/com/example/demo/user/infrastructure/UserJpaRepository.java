@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.user.domain.UserStatus;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByIdAndStatus(long id, UserStatus userStatus);
 
