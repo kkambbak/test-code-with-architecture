@@ -1,5 +1,6 @@
 package com.example.demo.user.infrastructure;
 
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 
 import jakarta.persistence.Column;
@@ -32,13 +33,37 @@ public class UserEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "certification_code")
-    private String certificationCode;
+	@Column(name = "certification_code")
+	private String certificationCode;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
+	private UserStatus status;
 
-    @Column(name = "last_login_at")
-    private Long lastLoginAt;
+	@Column(name = "last_login_at")
+	private Long lastLoginAt;
+
+	public static UserEntity fromModel(User user) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.id = user.getId();
+		userEntity.email = user.getEmail();
+		userEntity.nickname = user.getNickname();
+		userEntity.address = user.getAddress();
+		userEntity.certificationCode = user.getCertificationCode();
+		userEntity.status = user.getStatus();
+		userEntity.lastLoginAt = user.getLastLoginAt();
+		return userEntity;
+	}
+
+	public User toModel() {
+		return User.builder()
+			.id(id)
+			.email(email)
+			.nickname(nickname)
+			.address(address)
+			.certificationCode(certificationCode)
+			.status(status)
+			.lastLoginAt(lastLoginAt)
+			.build();
+	}
 }

@@ -18,10 +18,10 @@ import org.springframework.test.context.jdbc.SqlGroup;
 
 import com.example.demo.common.domain.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserCreate;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.infrastructure.UserEntity;
 
 @SpringBootTest
 @TestPropertySource("classpath:test-application.properties")
@@ -43,7 +43,7 @@ class UserServiceTest {
 	    String email = "ys1@naver.com";
 
 	    //when
-		UserEntity result = userService.getByEmail(email);
+		User result = userService.getByEmail(email);
 
 	    //then
 		Assertions.assertThat(result.getNickname()).isEqualTo("ys1");
@@ -68,7 +68,7 @@ class UserServiceTest {
 	void ust3() throws Exception{
 
 		//when
-		UserEntity result = userService.getById(1);
+		User result = userService.getById(1);
 
 		//then
 		Assertions.assertThat(result.getNickname()).isEqualTo("ys1");
@@ -97,7 +97,7 @@ class UserServiceTest {
 		BDDMockito.doNothing().when(mailSender).send(any(SimpleMailMessage.class));
 
 		//when
-		UserEntity result = userService.create(userCreate);
+		User result = userService.create(userCreate);
 
 		//then
 		Assertions.assertThat(result.getId()).isNotNull();
@@ -118,35 +118,35 @@ class UserServiceTest {
 		userService.update(1, userUpdate);
 
 		//then
-		UserEntity userEntity = userService.getById(1);
-		Assertions.assertThat(userEntity.getId()).isNotNull();
-		Assertions.assertThat(userEntity.getAddress()).isEqualTo("Incheon");
-		Assertions.assertThat(userEntity.getNickname()).isEqualTo("ys1-n");
+		User user = userService.getById(1);
+		Assertions.assertThat(user.getId()).isNotNull();
+		Assertions.assertThat(user.getAddress()).isEqualTo("Incheon");
+		Assertions.assertThat(user.getNickname()).isEqualTo("ys1-n");
 	}
 
 	@Test
 	@DisplayName("user를 로그인 시키면 마지막 로그인 시간이 변경된다.")
-	void ust7() throws Exception{
+	void ust7() throws Exception {
 
 		//when
 		userService.login(1);
 
 		//then
-		UserEntity userEntity = userService.getById(1);
-		Assertions.assertThat(userEntity.getLastLoginAt()).isGreaterThan(0L);
+		User user = userService.getById(1);
+		Assertions.assertThat(user.getLastLoginAt()).isGreaterThan(0L);
 		//Assertions.assertThat(result.getCertificationCode()).isEqualTo("??"); //FIXME
 	}
 
 	@Test
 	@DisplayName("PENDING 상태의 사용자는 인증코드로 ACTIVE 시킬 수 있다.")
-	void ust8() throws Exception{
+	void ust8() throws Exception {
 
 		//when
 		userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
 		//then
-		UserEntity userEntity = userService.getById(2);
-		Assertions.assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+		User user = userService.getById(2);
+		Assertions.assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
 	}
 
 	@Test

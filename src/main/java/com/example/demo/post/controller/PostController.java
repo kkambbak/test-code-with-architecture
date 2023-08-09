@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.post.controller.response.PostResponse;
 import com.example.demo.post.domain.PostUpdate;
-import com.example.demo.post.infrastructure.PostEntity;
 import com.example.demo.post.service.PostService;
-import com.example.demo.user.controller.UserController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,29 +22,18 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostService postService;
-    private final UserController userController;
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> getPostById(@PathVariable long id) {
         return ResponseEntity
             .ok()
-            .body(toResponse(postService.getById(id)));
+            .body(PostResponse.from(postService.getById(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PostResponse> updatePost(@PathVariable long id, @RequestBody PostUpdate postUpdate) {
         return ResponseEntity
             .ok()
-            .body(toResponse(postService.update(id, postUpdate)));
-    }
-
-    public PostResponse toResponse(PostEntity postEntity) {
-        PostResponse postResponse = new PostResponse();
-        postResponse.setId(postEntity.getId());
-        postResponse.setContent(postEntity.getContent());
-        postResponse.setCreatedAt(postEntity.getCreatedAt());
-        postResponse.setModifiedAt(postEntity.getModifiedAt());
-        postResponse.setWriter(userController.toResponse(postEntity.getWriter()));
-        return postResponse;
+            .body(PostResponse.from(postService.update(id, postUpdate)));
     }
 }
